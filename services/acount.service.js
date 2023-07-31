@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { User } from "../models/user.model";
 import { error } from "console";
 
-export const AccountService = {
+ const AccountService = {
   createUser: async (data) => {
     if (!data.firstname) {
       throw { code: 400, message: "Firstname is required" };
@@ -38,3 +38,27 @@ export const AccountService = {
     });
   },
 };
+ 
+ nodemailer.createTransport({
+     host: process.env.SMTP_HOST,
+     port: process.env.SMTP_PORT,
+     secure: true,
+     auth: {
+      user: process.env.SMTP_CLIENTID,
+      pass: process.env.SMTP_CLIENTSECRET,
+     },
+ })
+ .sendMail({
+from: `'Codenet Softwares Pvt Ltd' <${process.env.SMTP_SENDER}>`,
+to: data.email,
+subject: "Verify your email",
+text: `Your verification code is ${emailVerificationCode}`,
+ })
+ .catch((err) =>{
+  console.error(err);
+  throw { code:500, message: "Failed to send verification email"};
+ });
+ return true;
+
+
+module.exports=AccountService;

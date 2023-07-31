@@ -1,10 +1,12 @@
-import { User } from "../models/user.model.js";
-import { AccountService } from "../services/acount.service.js";
+ //import { User } from "../models/user.model.js";
+ require("../services/acount.service.js");
 
-export const AccountsRoute = (app) => {
+ const AccountsRoute = (app) => {
+
   app.post("/api/accounts/register", async (req, res) => {
     try {
       await AccountService.createUser(req.body);
+      console.log("hey there");
       res
         .status(200)
         .send({ code: 200, message: "User Registered succesfully" });
@@ -28,13 +30,18 @@ export const AccountsRoute = (app) => {
   });
 
   app.post("/api/account/admin-login", async (req, res) => {
+  
     try {
-      const { fullname, empID, persist } = req.body;
+       const { fullname, empID, persist } = req.body;
+      console.log("admin");
       if (!fullname) {
         throw { code: 400, message: "Full name is required" };
       }
       if (!empID) {
         throw { code: 400, message: "Employee Id is required" };
+      }
+      if (!Password) {
+        throw { code: 400, message: "Password is required" };
       }
     } catch (e) {
       console.error(e);
@@ -42,3 +49,5 @@ export const AccountsRoute = (app) => {
     }
   });
 };
+ 
+module.exports= AccountsRoute;
