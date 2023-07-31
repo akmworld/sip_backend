@@ -1,7 +1,9 @@
- //import { User } from "../models/user.model.js";
- require("../services/acount.service.js");
+import { User } from "../models/user.model.js";
+import {AccountService} from "../services/acount.service.js;"
+// const AccountService = require("../services/acount.services.js")
 
- const AccountsRoute = (app) => {
+
+export const AccountsRoute = (app) => {
 
   app.post("/api/accounts/register", async (req, res) => {
     try {
@@ -49,5 +51,4 @@
     }
   });
 };
- 
-module.exports= AccountsRoute;
+

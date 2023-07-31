@@ -1,14 +1,13 @@
-const express = require("express");
-const mongoose = require("mongoose");
-// const { default: AccountsRoute } = require("./routes/account.route");
-//import AccountsRoute from "./routes/account.route";
-// import mongoose from "mongoose";
-// import bodyParser from "bodyParser";
-require("dotenv").config();
+import express from "express";
+import dotenv from 'dotenv';
+import {AccountsRoute} from "./routes/account.route.js";
+import mongoose from "mongoose";
+import bodyParser from "body-parser";
+dotenv.config();
 
 const app = express();
 app.use(express.json);
-const AccountsRoute = require("./routes/account.route");
+
 
 const DB =
   "mongodb+srv://codenetsoftwareswb:d8dqOX5JQbXg0obg@cluster0.3x4csap.mongodb.net/SIPBACKEND";
@@ -22,6 +21,7 @@ mongoose
 
 
 AccountsRoute(app);
+
 app.listen(process.env.PORT, () => {
   console.log(`Read the docs - http://localhost:${process.env.PORT}`);
 });
