@@ -1,27 +1,32 @@
 import express from "express";
 import dotenv from 'dotenv';
-import {AccountsRoute} from "./routes/account.route.js";
+import { AccountRoute } from "./routes/account.route.js";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
+//import cors from "cors";
+
+
 dotenv.config();
 
 const app = express();
 app.use(express.json);
 
-
-const DB =
-  "mongodb+srv://codenetsoftwareswb:d8dqOX5JQbXg0obg@cluster0.3x4csap.mongodb.net/SIPBACKEND";
-mongoose
-  .connect(DB)
-  .then(() => {
-    console.log("connection successful");
-  })
-  .catch((err) => console.log("no connection"));
+mongoose.set("strictQuery", true);
+mongoose.connect(process.env.MONGODB_URI, { dbName: process.env.MONGODB_NAME });
 
 
 
-AccountsRoute(app);
+
+
+// app.get("/api/test", async(req,res) =>{
+//   console.log("hello world");
+//   res.status(200).send({message: "ok"});
+//  });
+
+
+AccountRoute(app);
+
 
 app.listen(process.env.PORT, () => {
-  console.log(`Read the docs - http://localhost:${process.env.PORT}`);
+  console.log(`Read the docs - http://localhost:${process.env.PORT || 8080}`);
 });

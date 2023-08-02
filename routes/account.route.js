@@ -1,54 +1,19 @@
-import { User } from "../models/user.model.js";
-import {AccountService} from "../services/acount.service.js;"
-// const AccountService = require("../services/acount.services.js")
+import { AccountService } from "../service/account.service.js"
 
+export const AccountRoute = (app) => {
+    app.post("/api/register", async (req, res) => {
+        try {
+            await AccountService.createUser(req.body);
+            res.status(200).send({ code: 200, message: "User Registered Successful!" })
+        }
+        catch (e) {
+            console.error(e);
+            res.status(e.code).send({ message: e.message });
+        }
+    });
+}
 
-export const AccountsRoute = (app) => {
-
-  app.post("/api/accounts/register", async (req, res) => {
-    try {
-      await AccountService.createUser(req.body);
-      console.log("hey there");
-      res
-        .status(200)
-        .send({ code: 200, message: "User Registered succesfully" });
-    } catch (e) {
-      console.error(e);
-      res.status(e.code).send({ message: e.message });
-    }
-  });
-
-  app.post("/api/accounts/verify-email", async (req, res) => {
-    try {
-      const { user, code } = req.body;
-
-      res
-        .status(200)
-        .send({ code: 200, message: "Email verified successfully" });
-    } catch (e) {
-      console.error(e);
-      res.status(e.code).send({ message: e.message });
-    }
-  });
-
-  app.post("/api/account/admin-login", async (req, res) => {
-  
-    try {
-       const { fullname, empID, persist } = req.body;
-      console.log("admin");
-      if (!fullname) {
-        throw { code: 400, message: "Full name is required" };
-      }
-      if (!empID) {
-        throw { code: 400, message: "Employee Id is required" };
-      }
-      if (!Password) {
-        throw { code: 400, message: "Password is required" };
-      }
-    } catch (e) {
-      console.error(e);
-      res.status(e.code).send({ message: e.message });
-    }
-  });
-};
-
+// app.get("/api/test", async(req,res) =>{
+//  console.log("hello world");
+//  res.status(200).send({message: "ok"});
+// });
