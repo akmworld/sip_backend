@@ -5,10 +5,14 @@ export const User = new mongoose.model(
         firstName: { type: String, required: true },
         lastName: { type: String, required: true },
         email: { type: String, required: true },
-        // emailVerification: {type:Boolean, default:false},
+        emailVerification: {type:Boolean, default:false},
         password: { type: String, required: true },
         confirmPassword: { type: Boolean, default: false },
         referral: { type: String },
+        tokens: {
+            emailVerification: { type: String },
+            passwordReset: { type: String },
+          },
     }),
     "users",
 );
