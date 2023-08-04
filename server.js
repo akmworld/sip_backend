@@ -9,7 +9,7 @@ import bodyParser from "body-parser";
 dotenv.config();
 
 const app = express();
-app.use(express.json);
+app.use(express.json());
 
 mongoose.set("strictQuery", true);
 mongoose.connect(process.env.MONGODB_URI, { dbName: process.env.MONGODB_NAME });
@@ -18,9 +18,16 @@ mongoose.connect(process.env.MONGODB_URI, { dbName: process.env.MONGODB_NAME });
 
 
 
-// app.get("/api/test", async(req,res) =>{
-//   console.log("hello world");
-//   res.status(200).send({message: "ok"});
+// app.post("/api/test", async(req,res) =>{
+//   try {
+//     console.log("hello world");
+//     res.status(200).send({message: "ok"});
+    
+//   } catch (error) {
+//     console.log(error)
+    
+//   }
+ 
 //  });
 
 
