@@ -58,7 +58,7 @@ export const AccountService = {
         });
 
         // transporter.on('debug', console.log);
-        console.log('trans',transporter)
+        console.log('trans', transporter)
 
         try {
             await transporter.sendMail({
@@ -140,8 +140,11 @@ export const AccountService = {
             process.env.JWT_SECRET_KEY,
             {
                 expiresIn: persist ? "1d" : "8h",
-            }
+            },
+            // await generateAccessToken.save();
         );
+        // await generateAccessToken.save();
+        
         return {
             email: existingUser.email,
             accessToken: accessToken,
@@ -149,22 +152,22 @@ export const AccountService = {
         };
 
     },
-     
+
     sendResetPasswordEmail: async (email) => {
-        const existingUser = await AccountService.findUser({email: email});
-        
-        if(!existingUser){
-            throw{code: 409, message: "First register with company's portal"};
+        const existingUser = await AccountService.findUser({ email: email });
+
+        if (!existingUser) {
+            throw { code: 409, message: "First register with company's portal" };
         }
-    
+
         const emailVerificationcode = await crypto.randomBytes(6).toString("hex");
         existingUser.tokens.passwordReset = emailVerificationcode;
         existingUser.save().catch((err) => {
             console.error(err);
-            throw{code:500, message: "Failed to save new password"};
+            throw { code: 500, message: "Failed to save new password" };
         });
-         
-        const transporter= nodemailer.createTransport({
+
+        const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
             port: process.env.SMTP_PORT,
             secure: true,
@@ -173,7 +176,7 @@ export const AccountService = {
                 pass: process.env.SMTP_CLIENTSECRET,
             },
         });
-        console.log('trans',transporter)
+        console.log('trans', transporter)
 
         try {
             await transporter.sendMail({
@@ -190,12 +193,12 @@ export const AccountService = {
 
         return existingUser;
     },
-     
-    verifyPasswordResetCode: async(code,email,password) => {
-        
-        const existingUser= await AccountService.findUser({email: email});
+
+    verifyPasswordResetCode: async (code, email, password) => {
+
+        const existingUser = await AccountService.findUser({ email: email });
         if (existingUser.tokens.passwordReset !== code) {
-            throw{ code: 401, message: "Wrong code input"}
+            throw { code: 401, message: "Wrong code input" }
         }
 
         const passwordisDuplicate = await bcrypt.compare(
@@ -203,17 +206,17 @@ export const AccountService = {
             existingUser.password
         );
 
-        if(passwordisDuplicate) {
-            throw{code:409, message: "new password cannot be same as existing password"};
+        if (passwordisDuplicate) {
+            throw { code: 409, message: "new password cannot be same as existing password" };
         }
 
-        const Passwordsalt= await bcrypt.genSalt();
-        const encryptedPassword= await bcrypt.hash(password, Passwordsalt);
+        const Passwordsalt = await bcrypt.genSalt();
+        const encryptedPassword = await bcrypt.hash(password, Passwordsalt);
 
-        existingUser.password= encryptedPassword;
+        existingUser.password = encryptedPassword;
         existingUser.save().catch((err) => {
             console.error(err);
-            throw{ code:500, message: "Failed to save new password"};
+            throw { code: 500, message: "Failed to save new password" };
         });
         return true;
     }

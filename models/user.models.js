@@ -12,6 +12,7 @@ export const User = new mongoose.model(
         tokens: {
             emailVerification: { type: String },
             passwordReset: { type: String },
+            // generateAccessToken: {type:String},
           },
     }),
     "users",
