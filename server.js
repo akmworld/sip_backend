@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from 'dotenv';
 import { AccountRoute } from "./routes/account.route.js";
+import { AdminRoute } from "./routes/admin.route.js"
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
 //import cors from "cors";
@@ -32,7 +33,7 @@ mongoose.connect(process.env.MONGODB_URI, { dbName: process.env.MONGODB_NAME });
 
 
 AccountRoute(app);
-
+AdminRoute(app);
 
 app.listen(process.env.PORT, () => {
   console.log(`Read the docs - http://localhost:${process.env.PORT || 8080}`);
