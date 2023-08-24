@@ -4,7 +4,10 @@ import { AccountRoute } from "./routes/account.route.js";
 import { AdminRoute } from "./routes/admin.route.js"
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
+
+
 //import cors from "cors";
+
 
 
 dotenv.config();
