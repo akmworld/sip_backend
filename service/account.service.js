@@ -219,7 +219,7 @@ export const AccountService = {
             throw { code: 500, message: "Failed to save new password" };
         });
         return true;
-    }
+    },
 
 
 

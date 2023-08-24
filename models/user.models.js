@@ -14,6 +14,7 @@ export const User = new mongoose.model(
             passwordReset: { type: String },
             // generateAccessToken: {type:String},
           },
+      
     }),
     "users",
 );

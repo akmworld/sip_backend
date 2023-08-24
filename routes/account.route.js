@@ -1,5 +1,7 @@
 import { AccountService } from "../service/account.service.js"
 import { User } from '../models/user.models.js'
+import multer from "multer";
+
 
 export const AccountRoute = (app) => {
     app.post("/api/register", async (req, res) => {
@@ -84,8 +86,7 @@ export const AccountRoute = (app) => {
             res.status(err.code).send({message: err.message});
         }
     });
-
-
+ 
 
 };
 
